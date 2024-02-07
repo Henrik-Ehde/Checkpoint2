@@ -58,13 +58,15 @@ void InvalidPriceMessage()
 void PrintList()
 {
     Console.WriteLine("\nYour Product List:");
+    Console.WriteLine("Category:".PadRight(10) + "Name:".PadRight(10) + "Price:");
+
     foreach (Product product in products)
     {
-        Console.WriteLine(product.Category + " " + product.Name + " " + product.Price);
+        Console.WriteLine(product.Category.PadRight(10) + product.Name.PadRight(10) + product.Price);
     }
 
     int highestPrice = products.Max(p => p.Price);
-    Console.WriteLine("Highest Price: " + highestPrice);
+    Console.WriteLine("\nHighest Price: " + highestPrice);
 
 }
 
