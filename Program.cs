@@ -1,13 +1,12 @@
 ﻿
+using Checkpoint2;
 using System.Diagnostics;
 
-List<Product> products = new List<Product>();
+ProductList productList = new ProductList();
 
 AddProducts();
 
-PrintList();
-
-Console.ReadLine();
+InputCommands();
 
 
 
@@ -15,80 +14,109 @@ void AddProducts()
 {
     while (true)
     {
-        Product newProduct = new Product();
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("Follow the instructions to enter a new product. Write q to quit.");
-        Console.ResetColor();
+        Product newProduct = new();
 
-        Console.Write("Category: ");
-        newProduct.Category = Console.ReadLine();
-        if (newProduct.Category.ToLower() == "q") break;
+        ColoredText.WriteLine("Follow the instructions to enter a new product. Enter Q to quit.", ConsoleColor.Yellow);
 
-        Console.Write("Product: ");
-        newProduct.Name = Console.ReadLine();
+        string input = InputInfo("Category");
+        if (input == "q") break;
+        else newProduct.Category = input;
 
-        bool validPrice = false;
-        int price;
-        while (!validPrice)
+        input = InputInfo("Product name");
+        if (input == "q") break;
+        else newProduct.Name = input;
+
+        input = InputPrice();
+        if (input == "q") break;
+        else newProduct.Price = int.Parse(input);
+
+        productList.Add(newProduct);
+        ColoredText.WriteLine("The product has been added.\n", ConsoleColor.Green);
+    }
+
+    productList.PrintSorted();
+}
+
+void InputCommands()
+{
+    while (true)
+    {
+        ColoredText.WriteLine("COMMANDS: P - Enter more products | S - Search | Q - Quit", ConsoleColor.DarkYellow);
+        Console.Write("Input a Command: ");
+
+        switch (Console.ReadLine().ToLower().Trim())
         {
-            Console.Write("Price: ");
-            string input = Console.ReadLine();
-            validPrice = int.TryParse(input, out price);
+            case "p":
+                Console.Write("\n");
+                AddProducts();
+                break;
 
-            if (validPrice) newProduct.Price = price;
-            else InvalidPriceMessage();
+            case "s":
+                Search();
+                break;
+
+            case "q":
+                Environment.Exit(0);
+                break;
+
+            default:
+                ColoredText.WriteLine("You did not enter a valid command.", ConsoleColor.Red);
+                break;
         }
-
-
-        products.Add(newProduct);
     }
 }
 
-void InvalidPriceMessage()
+void Search()
 {
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("A valid price was not entered.");
-    Console.ResetColor();
+    while (true)
+    {
+        ColoredText.Write("Search for: ", ConsoleColor.Yellow);
+        string searchString = Console.ReadLine();
+        if (searchString == "") ColoredText.WriteLine("You did not enter anything", ConsoleColor.Red);
+        else
+        {
+            productList.PrintSearched(searchString);
+            break;
+        }   
+    }
 }
 
 
 
-
-
-void PrintList()
+string InputInfo(string info)
 {
-    Console.WriteLine("\nYour Product List:");
-    Console.WriteLine("Category:".PadRight(10) + "Name:".PadRight(10) + "Price:");
-
-    foreach (Product product in products)
+    while (true)
     {
-        Console.WriteLine(product.Category.PadRight(10) + product.Name.PadRight(10) + product.Price);
+        Console.Write("Enter the " + info + ": ");
+        string input = Console.ReadLine();
+        if (input == "") ColoredText.WriteLine("You did not enter anything.", ConsoleColor.Red);
+        else if (input.ToLower().Trim() == "q") return "q";
+        else return input;
     }
-
-    int highestPrice = products.Max(p => p.Price);
-    Console.WriteLine("\nHighest Price: " + highestPrice);
-
 }
 
-
-
-class Product
+string InputPrice()
 {
-
-    public string Category {  get; set; }
-    public string Name { get; set; }
-    public int Price { get; set; }
-
-    public Product()
+    while (true)
     {
-    }
-
-    public Product(string category, string name, int price)
-    {
-        this.Category = category;
-        this.Name = name;
-        this.Price = price;
+        string input = InputInfo("Price");
+        if (input == "q" || int.TryParse(input, out _)) return input;
+        else ColoredText.WriteLine("You did not enter a valid price.", ConsoleColor.Red);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
