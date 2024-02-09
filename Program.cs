@@ -12,6 +12,10 @@ InputCommands();
 
 void AddProducts()
 {
+    //Lets the user add products to the list by enter the category, name and price.
+    // Loops to let the user add additional products until they exit.
+    //Displays the product list when finished.
+
     while (true)
     {
         Product newProduct = new();
@@ -39,6 +43,9 @@ void AddProducts()
 
 void InputCommands()
 {
+    //Lets the user enter a command to chose what to do next.
+    //Loops to let the user add a new command whenever they've finished what they're doing.
+
     while (true)
     {
         ColoredText.WriteLine("COMMANDS: P - Enter more products | S - Search | Q - Quit", ConsoleColor.DarkYellow);
@@ -68,6 +75,7 @@ void InputCommands()
 
 void Search()
 {
+    //Let's the user enter a search phrase to find highlight products in the list. Loops until they enter a valid search term.
     while (true)
     {
         ColoredText.Write("Search for: ", ConsoleColor.Yellow);
@@ -85,6 +93,8 @@ void Search()
 
 string InputInfo(string info)
 {
+    // Asks the user to enter information about a product.
+    //Loops until they enter a valid input. Also let's them enter a command to exit.
     while (true)
     {
         Console.Write("Enter the " + info + ": ");
@@ -97,6 +107,7 @@ string InputInfo(string info)
 
 string InputPrice()
 {
+    //Asks the user to enter a price. Validates that they either enter an integer or a command to exit.
     while (true)
     {
         string input = InputInfo("Price");

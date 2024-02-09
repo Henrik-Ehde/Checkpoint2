@@ -16,6 +16,8 @@ namespace Checkpoint2
             products.Add(product);
         }
 
+
+        //Prints the list sorted by price from lowest to highest. Also displays the sum of every product's price
         public void PrintSorted()
         {
             List<Product> productsSorted = products.OrderBy(p => p.Price).ToList();
@@ -34,6 +36,9 @@ namespace Checkpoint2
 
         }
 
+
+        //Lets the user search for a string.
+        //Displays the list and also highlights any item containing the searched string in the category or name
         public void PrintSearched(string searchString)
         {
             List<Product> productsSorted = products.OrderBy(p => p.Price).ToList();
